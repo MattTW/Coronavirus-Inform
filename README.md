@@ -7,6 +7,8 @@ Give a user some info on Coronavirus COVID-19 cases near their location
 * ```pip3 install -r requirements.txt```
 * ```python3 go.py```
 
+If you get SSL errors, run the Install Certificates command that comes with your python install.   On a Mac with Python 3, run ```/Applications/Python\ 3.7/Install\ Certificates.command ```
+
 If python 3 is your default python, ```pip``` and ```python``` will work just fine too.
 
 You can be pretty generic answering the location prompt.  A city and state is usually enough.  Well known landmarks will work too.
