@@ -11,7 +11,8 @@ If python 3 is your default python, ```pip``` and ```python``` will work just fi
 
 You can be pretty generic answering the location prompt.  A city and state is usually enough.  Well known landmarks will work too.
 
-```Where you at? Des Moines, IA
+```
+Where you at? Des Moines, IA
 Your latitude and longitude: (41.5910641, -93.6037149)
 This data is current as of 3/10/20
 The closest active Coronavirus case to you is 35 miles away in Iowa!
