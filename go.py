@@ -11,7 +11,7 @@ my_geocoded_location = geolocator.geocode(my_location)
 my_lat_and_long = (my_geocoded_location.latitude, my_geocoded_location.longitude)
 print(f"Your latitude and longitude: {my_lat_and_long}")
 
-# here is where the data is at
+# data locations on Githb
 COVID_19_github_prefix = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-"
 confirmed_url = COVID_19_github_prefix + "Confirmed.csv"
 deaths_url = COVID_19_github_prefix + "Deaths.csv"
@@ -29,15 +29,12 @@ def calculate_distance(row):
 latest_data_date = confirmed_matrix.iloc[:,-1].name
 
 # build a new matrix that combines the data we want
-# location, lat/long columns plus last date in the timer series for each and give it an appropriate name.   
-# Instead of confirmed column create active column
 combined_matrix = pd.DataFrame({'location': confirmed_matrix['Province/State'], 'latitude': confirmed_matrix['Lat'],
-                                 'longitude': confirmed_matrix['Long'], f'deaths': deaths_matrix[latest_data_date],
-                                 f'recovered': recovered_matrix[latest_data_date]})
+                                 'longitude': confirmed_matrix['Long'], 'deaths': deaths_matrix[latest_data_date],
+                                 'recovered': recovered_matrix[latest_data_date]})
 # Active = confirmed - deaths - recovered
 combined_matrix['active'] = confirmed_matrix[latest_data_date] - combined_matrix.deaths - combined_matrix.recovered
 combined_matrix['distance'] = combined_matrix.apply(calculate_distance, axis=1)
-
 
 print(f"This data is current as of {latest_data_date}")
 
