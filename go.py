@@ -37,55 +37,25 @@ combined_matrix = pd.DataFrame({'location': confirmed_matrix['Province/State'], 
 # Active = confirmed - deaths - recovered
 combined_matrix['active'] = confirmed_matrix[latest_data_date] - combined_matrix.deaths - combined_matrix.recovered
 combined_matrix['distance'] = combined_matrix.apply(calculate_distance, axis=1)
-print(combined_matrix)
+
 
 print(f"This data is current as of {latest_data_date}")
 
 # Now do the analysis
-print(combined_matrix['distance'].min())
-# Deaths
-has_death = combined_matrix['deaths'] > 0
-closest_death_row = combined_matrix.loc[combined_matrix[has_death]['distance'].idxmin()]
-print(f"The closest death to you is {closest_death_row['distance']:.0f} miles away in {closest_death_row['location']}!")
-# shortest_confirmed_distance = 9999999999
-# shortest_confirmed_location = "Mars"
-# shortest_death_distance = 9999999999
-# shortest_death_location = "Mars"
-# one_hundred_mile_confirmed_total = 0
-# five_hundred_mile_confirmed_total = 0
-# one_hundred_mile_death_total = 0
-# five_hundred_mile_death_total = 0
+closest_active_row = combined_matrix.loc[combined_matrix[(combined_matrix.active > 0)]['distance'].idxmin()]
+print(f"The closest active Coronavirus case to you is {closest_active_row.distance:.0f} miles away in {closest_active_row.location}!")
 
-# # process confirmed
-# for index, row in confirmed_matrix.iterrows():
-#     current_corona_location = (row['Lat'], row['Long'])
-#     current_corona_distance = distance.distance(my_lat_and_long, current_corona_location).mi
-#     if row[latest_data_date] > 0 and current_corona_distance < shortest_confirmed_distance:
-#         shortest_confirmed_distance = current_corona_distance
-#         shortest_confirmed_location = row['Province/State']
-#     if current_corona_distance < 100 and row[latest_data_date] > 0:
-#         one_hundred_mile_confirmed_total += row[latest_data_date]
-#     if current_corona_distance < 500 and row[latest_data_date] > 0:
-#         five_hundred_mile_confirmed_total += row[latest_data_date]
+closest_death_row = combined_matrix.loc[combined_matrix[combined_matrix.deaths > 0]['distance'].idxmin()]
+print(f"The closest death to you is {closest_death_row.distance:.0f} miles away in {closest_death_row.location}!")
 
+has_active_within_100_miles = combined_matrix[(combined_matrix.active > 0) & (combined_matrix.distance < 100)]
+print(f"There are {has_active_within_100_miles.active.sum():.0f} active cases within 100 miles of you")
 
-# # process deaths
-# for index, row in deaths_matrix.iterrows():
-#     current_corona_location = (row['Lat'], row['Long'])
-#     current_corona_distance = distance.distance(my_lat_and_long, current_corona_location).mi
-#     if row[latest_data_date] > 0 and current_corona_distance < shortest_death_distance:
-#         shortest_death_distance = current_corona_distance
-#         shortest_death_location = row['Province/State']
-#     if current_corona_distance < 100 and row[latest_data_date] > 0:
-#         one_hundred_mile_death_total += row[latest_data_date]
-#     if current_corona_distance < 500 and row[latest_data_date] > 0:
-#         five_hundred_mile_death_total += row[latest_data_date]
+has_active_within_500_miles = combined_matrix[(combined_matrix.active > 0) & (combined_matrix.distance < 500)]
+print(f"There are {has_active_within_500_miles.active.sum():.0f} active cases within 500 miles of you")
 
+has_deaths_within_100_miles = combined_matrix[(combined_matrix.deaths > 0) & (combined_matrix.distance < 100)]
+print(f"There are {has_deaths_within_100_miles.deaths.sum():.0f} deaths within 100 miles of you")
 
-# # print out some info
-# print(f"Uh oh, the closest confirmed Coronavirus case was found in {shortest_confirmed_location} which is only {shortest_confirmed_distance:.0f} miles from you!")
-# print(f"Yikes! The closest death was in {shortest_death_location} which is {shortest_death_distance:.0f} miles from you!")
-# print(f"There are {one_hundred_mile_confirmed_total} confirmed cases within 100 miles of you")
-# print(f"There are {five_hundred_mile_confirmed_total} confirmed cases within 500 miles of you")
-# print(f"There have been {one_hundred_mile_death_total} deaths within 100 miles of you")
-# print(f"There have been {five_hundred_mile_death_total} deaths within 500 miles of you")
+has_deaths_within_500_miles = combined_matrix[(combined_matrix.deaths > 0) & (combined_matrix.distance < 500)]
+print(f"There are {has_deaths_within_500_miles.deaths.sum():.0f} deaths within 500 miles of you")
