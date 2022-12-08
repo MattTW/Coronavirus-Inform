@@ -1,4 +1,4 @@
-certifi==2019.11.28
+certifi==2022.12.7
 geographiclib==1.50
 geopy==1.21.0
 numpy==1.18.1
